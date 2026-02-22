@@ -175,8 +175,8 @@ def main():
     parser.add_argument("--all", action="store_true", help="短いセッションも含めて表示")
     args = parser.parse_args()
 
-    session_dir = os.path.expanduser("~/.claude/projects/-Users-sochi")
-    files = glob.glob(os.path.join(session_dir, "*.jsonl"))
+    projects_dir = os.path.expanduser("~/.claude/projects")
+    files = glob.glob(os.path.join(projects_dir, "*", "*.jsonl"))
 
     if not files:
         print("セッションが見つかりません。", file=sys.stderr)

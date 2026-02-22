@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 """セッションからAI要約用の要点を抽出する。複数セッションID対応。"""
 
+import glob
 import json
 import os
 import re
 import sys
+
+
+def find_session_file(session_id):
+    """全プロジェクトディレクトリからセッションファイルを探す。"""
+    projects_dir = os.path.expanduser("~/.claude/projects")
+    matches = glob.glob(os.path.join(projects_dir, "*", f"{session_id}.jsonl"))
+    return matches[0] if matches else os.path.join(projects_dir, f"{session_id}.jsonl")
 
 
 def clean_text(text):
@@ -45,8 +53,7 @@ def extract_tools(content):
 
 def extract_session(session_id):
     """セッションから要約用の要点を抽出して出力。"""
-    session_dir = os.path.expanduser("~/.claude/projects/-Users-sochi")
-    filepath = os.path.join(session_dir, f"{session_id}.jsonl")
+    filepath = find_session_file(session_id)
 
     if not os.path.exists(filepath):
         return f"セッションが見つかりません: {session_id}"
@@ -112,8 +119,7 @@ def extract_session(session_id):
 
 def extract_session_detail(session_id):
     """セッションからresume時に貼り付ける用の詳細な文脈を抽出。"""
-    session_dir = os.path.expanduser("~/.claude/projects/-Users-sochi")
-    filepath = os.path.join(session_dir, f"{session_id}.jsonl")
+    filepath = find_session_file(session_id)
 
     if not os.path.exists(filepath):
         return f"セッションが見つかりません: {session_id}"

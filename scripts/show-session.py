@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 """指定セッションIDの会話詳細をプレビュー表示する。"""
 
+import glob
 import json
 import os
 import sys
 from datetime import datetime
+
+
+def find_session_file(session_id):
+    """全プロジェクトディレクトリからセッションファイルを探す。"""
+    projects_dir = os.path.expanduser("~/.claude/projects")
+    matches = glob.glob(os.path.join(projects_dir, "*", f"{session_id}.jsonl"))
+    return matches[0] if matches else os.path.join(projects_dir, f"{session_id}.jsonl")
 
 
 def parse_timestamp(ts_str):
@@ -61,8 +69,7 @@ def main():
         sys.exit(1)
 
     session_id = sys.argv[1]
-    session_dir = os.path.expanduser("~/.claude/projects/-Users-sochi")
-    filepath = os.path.join(session_dir, f"{session_id}.jsonl")
+    filepath = find_session_file(session_id)
 
     if not os.path.exists(filepath):
         print(f"セッションが見つかりません: {session_id}", file=sys.stderr)

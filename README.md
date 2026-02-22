@@ -101,7 +101,7 @@ git clone https://github.com/sochisancha/claude-code-history.git ~/.claude/skill
 
 ### 注意事項
 
-- `list-sessions.py` 内のセッションディレクトリパスがハードコードされています（`~/.claude/projects/-Users-sochi`）。別のユーザー名の場合は書き換えが必要です。
+- セッションディレクトリは `~/.claude/projects/` 配下を自動検出します。特別な設定は不要です。
 
 ## ライセンス
 
